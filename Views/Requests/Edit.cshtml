@@ -1,0 +1,87 @@
+﻿@model HelpDesk.Models.NewRequestModel;
+@{
+    ViewData["Title"] = "New";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<form action="/Requests/New" method="post">
+    <div class="sidebar">
+        <table onclick="document.location.href = '@Url.Action("Index", "Requests")'" class="sidebar-header">
+            <tr>
+                <td>@Model.CurrentUser.User.Name</td>
+            </tr>
+            <tr>
+                <td>@Model.CurrentUser.User.Surname</td>
+            </tr>
+        </table>
+        
+        @if (Html.ViewBag.Actions != null)
+        {
+
+            @foreach (KeyValuePair<string, string> act in Html.ViewBag.Actions)
+            {
+                <div class="sidebar-header" onclick="document.location.href = '@act.Value'">
+                    @act.Key
+                </div>
+            }
+        }
+    </div>
+    
+    <div class="content">
+        @if (Model.ErrorMessage != null)
+        {
+            <div class="content-bar">
+                <p style="padding:8px"><font color="red">@Model.ErrorMessage</font></p>
+            </div>
+            }
+        <div class="content-bar">
+            <div class="inline">
+                <div class="search-txt">
+                    <label class="input-text-search">@Html.DropDownList("Partitions", "Укажите раздел")</label>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="request-context">
+                <div class="head-block">
+                    <p>Описание: </p>
+                </div>
+                <div class="text-block">
+                    <textarea class="textarea-head" name="Heading" maxlength="960">@Model.Heading</textarea>
+                </div>
+            </div>
+            <div class="request-context">
+                <div class="head-block">
+                    <!--
+                        <div style="display:inline-block">Статус:   </div>
+                    <div class="input-text-search" style="display:inline-block">
+                        <label>Html.DropDownList("Status" = new StatusHandler(model.Request))</label>
+
+                    </div>
+                        -->
+
+
+                </div>
+            </div>
+            <br />
+
+
+
+            <input hidden="hidden" type="number" name="CurrentUser" value="@Model.CurrentUser" />
+            <div class="request-context">
+                <div class="head-block-newcomment">
+                    <p><h3>Комментарий:</h3></p>
+                </div>
+                <div class="text-block-comment">
+                    <textarea class="textarea-comment" name="Comment" maxlength="960">@Model.Comment</textarea>
+                </div>
+                <div>
+                    <input class="submit-comment" type="submit" name="submit" value="Сохранить" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+

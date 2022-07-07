@@ -1,0 +1,108 @@
+﻿@model HelpDesk.Models.UserModel;
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+    <form action="/Users/Edit" method="post">
+        <div class="sidebar">
+            <table onclick="document.location.href = '@Url.Action("Index", "Requests")'" class="sidebar-header">
+                <tr>
+                    <td>@Html.ViewBag.CurrentUser.Name</td>
+                </tr>
+                <tr>
+                    <td>@Html.ViewBag.CurrentUser.Surname</td>
+                </tr>
+            </table>
+
+            @if (Html.ViewBag.Actions != null)
+            {
+
+                @foreach (KeyValuePair<string, string> act in Html.ViewBag.Actions)
+                {
+                    <div class="sidebar-header" onclick="document.location.href = '@act.Value'">
+                        @act.Key
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="content">
+            @if (ViewBag.Message != null)
+            {
+                <div class="content-bar">
+                    <p style="padding:8px"><font color="red">@ViewBag.Message</font></p>
+                </div>
+            }
+            <div class="content-bar">
+                <div class="inline">
+                    <div class="search-txt">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="request-context">
+                    <div class="head-block">
+                        <div class="inline" style="width:100px">Имя: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Name" value="@Model.User.Name" />
+                        </div>
+                    </div>
+
+                    <div class="head-block">
+                        <div class="inline" style="width:100px">Фамилия: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Surname" value="@Model.User.Surname" />
+                        </div>
+                    </div>
+
+                    <div class="head-block">
+                        <div class="inline" style="width:100px">Email: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="email" name="Email" value="@Model.User.Email" />
+                        </div>
+                    </div>
+
+                    <div class="head-block">
+                        <div class="inline" style="width:100px">Должность: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Post" value="@Model.User.Post" />
+                        </div>
+                    </div>
+
+                    <div class="head-block">
+                        <div class="inline" style="width:100px">Роль: </div>
+                        <div class="inline">
+                            <label class="input-text-search">@Html.DropDownList("ServerRole")</label>
+                        </div>
+                    </div>
+
+                    <div class="head-block">
+                        <div class="inline" style="width:100px">Пароль: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Password" value="" placeholder="Новый пароль" />
+                        </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="ConfirmPass" value="" placeholder="Повторите пароль" />
+                        </div>
+                    </div>
+                    <div hidden="hidden">
+                        <input type="number" name="UserId" value="@Model.User.Id" />
+                    </div>                   
+
+                    <div class="head-block">
+                        <div class="inline">
+                            <input class="input-text-btn" type="submit" value="Сохранить" />
+                        </div>
+                    </div>
+
+
+                </div>                                            
+                
+            </div>
+
+        </div>
+    </form>
+
+
+

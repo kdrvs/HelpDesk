@@ -1,0 +1,173 @@
+﻿@model HelpDesk.Models.UserModel;
+@{
+    ViewData["Title"] = "New";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<form action="/Users/New" method="post">
+    <div class="sidebar">
+        <table onclick="document.location.href = '@Url.Action("Index", "Requests")'" class="sidebar-header">
+            <tr>
+                <td>@Html.ViewBag.CurrentUser.Name</td>
+            </tr>
+            <tr>
+                <td>@Html.ViewBag.CurrentUser.Surname</td>
+            </tr>
+        </table>
+
+        @if (Html.ViewBag.Actions != null)
+        {
+
+            @foreach (KeyValuePair<string, string> act in Html.ViewBag.Actions)
+            {
+                <div class="sidebar-header" onclick="document.location.href = '@act.Value'">
+                    @act.Key
+                </div>
+            }
+        }
+    </div>
+
+    <div class="content">
+        @if (Model != null && Model.errorMessage != null)
+        {
+            <div class="content-bar">
+                <p style="padding:8px"><font color="red">@Model.errorMessage</font></p>
+            </div>
+        }
+        <div class="content-bar">
+            <div class="inline">
+                <div class="search-txt">
+                </div>
+            </div>
+        </div>
+
+        @if (Model != null)
+        {
+            <div>
+                <div class="request-context">
+                    <div class="head-block">
+                        Новая учётная запись
+                    </div>
+                    <div class="text-block" style="min-height:0px">
+                        <div class="inline" style="width:100px">Имя: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Name" value="@Model.Name" />
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Фамилия: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Surname" value="@Model.Surname" />
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Email: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="email" name="Email" value="@Model.Email" />
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Должность: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Post" value="@Model.Post" />
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Роль: </div>
+                        <div class="inline">
+                            <label class="input-text-search" style="width:142px">@Html.DropDownList("ServerRole")</label>
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Пароль: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Password" value="" placeholder="Пароль" />
+                        </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="ConfirmPass" value="" placeholder="Повторите пароль" />
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline">
+                            <input class="input-text-btn" type="submit" value="Сохранить" />
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div>
+                <div class="request-context">
+                    <div class="head-block">
+                        Новая учётная запись
+                    </div>
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Имя: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Name" value="" />
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Фамилия: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Surname" value="" />
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Email: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="email" name="Email" value="" />
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Должность: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Post" value="" />
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Роль: </div>
+                        <div class="inline">
+                            <label class="input-text-search" style="width:142px">@Html.DropDownList("ServerRole", "")</label>
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline" style="width:100px">Пароль: </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="Password" value="" placeholder="Пароль" />
+                        </div>
+                        <div class="inline">
+                            <input class="input-text-search" type="text" name="ConfirmPass" value="" placeholder="Повторите пароль" />
+                        </div>
+                    </div>
+
+                    <div class="text-block"style="min-height:0px">
+                        <div class="inline">
+                            <input class="input-text-btn" type="submit" value="Сохранить" />
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+</form>
+

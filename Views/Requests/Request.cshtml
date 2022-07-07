@@ -1,0 +1,103 @@
+﻿@using HelpDesk.Data;
+@model HelpDesk.Models.RequestModel;
+@{
+    ViewData["Title"] = "Request";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<form action="/Requests/Request" method="post">
+    <div class="sidebar">
+        <table onclick="document.location.href = '@Url.Action("Index", "Requests")'" class="sidebar-header">
+            <tr>
+                <td>@Model.CurrentUser.User.Name</td>
+            </tr>
+            <tr>
+                <td>@Model.CurrentUser.User.Surname</td>
+            </tr>
+        </table>
+        @if (Html.ViewBag.Actions != null)
+        {
+
+            @foreach (KeyValuePair<string, string> act in Html.ViewBag.Actions)
+            {
+                <div class="sidebar-header" onclick="document.location.href = '@act.Value'">
+                    @act.Key
+                </div>
+            }
+        }
+        <br />
+        <div class="sidebar-content">
+            <table class="sidebar-elem">
+                <tr>
+                    <td><h4>Заявку создал:</h4></td>
+                </tr>
+                <tr>
+                    <td>@Model.Creator.Name</td>
+                </tr>
+                <tr>
+                    <td>@Model.Creator.Surname</td>
+                </tr>
+                <tr>
+                    <td>@Model.Creator.Post</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="content-bar">
+            <p class="head-block">@Model.Request.IdPartitionNavigation.Notation</p>
+        </div>
+
+        <div>
+            <div class="request-context">
+                <div class="head-block">
+                    <p>Заявка № @Model.Request.Id.ToString();  дата создания: @Model.Request.CreationTime</p>
+                </div>
+                <div class="text-block">
+                    <div style="word-wrap:break-word">@Model.Request.Heading</div>
+                </div>
+            </div>
+            <div class="request-context">
+                <div class="head-block">
+                    <div style="display:inline-block">Статус:   </div>
+                    <div class="input-text-search" style="display:inline-block">
+                        <label>@Html.DropDownList("Status")</label>
+                        
+                    </div>
+
+
+                </div>
+            </div>
+            <br />
+
+            @foreach (Comments comm in Model.Request.Comments)
+            {
+                <div class="request-context">
+                    <div class="head-block-comment">
+                        <p>@comm.AddTime, @comm.IdUserNavigation.Name @comm.IdUserNavigation.Surname, @comm.IdUserNavigation.Post</p>
+                    </div>
+                    <div class="text-block-comment">
+                        <div style="overflow-wrap:break-word; white-space:pre-line">@comm.Comment</div>                       
+                    </div>
+                </div>
+            }
+
+            <input hidden="hidden" type="number" name="RequestId" value="@Model.Request.Id" />
+            <input hidden="hidden" type="number" name="CurrentUserId" value="@Model.CurrentUser.User.Id" />
+            <div class="request-context">
+                <div class="head-block-newcomment">
+                    <p><h3>Комментарий:</h3></p>
+                </div>
+                <div class="text-block-comment">
+                    <textarea class="textarea-comment" name="NewComment" maxlength="960"></textarea>
+                    <!--<input class="text-block-newcomment" type="text" value="" />-->
+                </div>
+                <div>
+                    <input class="submit-comment" type="submit" name="submit" value="Сохранить" />
+                </div>
+            </div>
+        </div>
+     </div>
+</form>
+

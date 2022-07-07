@@ -1,0 +1,104 @@
+﻿@using HelpDesk.Data;
+@using HelpDesk.Controllers;
+@using Microsoft.AspNetCore.Mvc;
+@using System.Collections.Generic;
+@model HelpDesk.Models.ListRequestsModel;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+    <div class="sidebar">
+        <table onclick="document.location.href = '@Url.Action("Index", "Requests")'" class="sidebar-header">
+            <tr>
+                <td>@Model.User.Name</td>
+            </tr>
+            <tr>
+                <td>@Model.User.Surname</td>
+            </tr>
+        </table>
+
+        @if (Html.ViewBag.Actions != null)
+        {
+
+            @foreach (KeyValuePair<string, string> act in Html.ViewBag.Actions)
+            {                
+                <div class="sidebar-header" onclick="document.location.href = '@act.Value'">
+                    @act.Key                                     
+                </div>
+            }
+        }
+        
+    </div>
+
+<div class="content">
+    <div class="content-bar">
+        <div class="inline">
+            <form action="/Requests/Index" method="post">
+                <div class="search-txt">
+                    <label class="input-text-search">@Html.DropDownList("Partitions", "Выбрать раздел")</label>
+                </div>
+                <div class="search-txt">
+                    <input class="input-text-btn" type="submit" value="Перейти" />
+                </div>
+            </form>
+        </div>
+        <div class="inline">
+            <div class="search-txt" style="width:30px">
+            </div>
+        </div>
+        <div class="inline">
+            <div class="search-txt">
+                <input class="input-text-search" type="text" name="text" required placeholder="Поиск(ToDo)" />
+            </div>
+        </div>
+        <div class="inline">
+            <div class="search-txt" style="width:30px">
+            </div>
+        </div>
+
+        <div onclick="document.location.href = '@Url.Action("New", "Requests")'" class="inline search-txt onclick-header">
+            <div class="input-text-btn">Создать заявку</div>
+        </div>
+    </div>
+
+
+
+
+    <table class="table-requests" cellspacing="0">
+        <thead>
+            <tr>
+                <th style="width:5%">Номер</th>
+                <th style="width:10%">Дата</th>
+                <th style="width:15%">Статус</th>
+                <th style="width:30%">Описание</th>
+                <th style="width:20%">Раздел</th>
+                <th style="width:10%">Заявитель</th>
+                <th style="width:10%">Исполнители</th>
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+            @foreach (Requests r in Model.Requests)
+            {
+
+                <!-- onclick is some kind js -->
+                <tr onclick="document.location.href = '@Url.Action("Request", "Requests", new { val = r.Id.ToString() })'">
+                    <td>@r.Id </td>
+                    <td>@r.CreationTime</td>
+                    <td>@{string st = new StatusHandler(r).CurrentStatus.Notation;}@st</td>
+                    <td class="overflow">@Html.ActionLink(r.Heading, "Request", "Requests", new { val = r.Id.ToString() })</td>
+                    <td>@r.IdPartitionNavigation.Notation</td>
+                    <td class="overflow">@r.IdCreatorNavigation.Name @r.IdCreatorNavigation.Surname</td>
+                    <td>todo</td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+</div>
+

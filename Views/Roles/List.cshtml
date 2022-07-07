@@ -1,0 +1,69 @@
+﻿@model HelpDesk.Models.RolesList;
+@using HelpDesk.Data;
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="sidebar">
+    <table onclick="document.location.href = '@Url.Action("Index", "Requests")'" class="sidebar-header">
+        <tr>
+            <td>@Model.CurrentUser.Name</td>
+        </tr>
+        <tr>
+            <td>@Model.CurrentUser.Surname</td>
+        </tr>
+    </table>
+    @if (Html.ViewBag.Actions != null)
+    {
+
+        @foreach (KeyValuePair<string, string> act in Html.ViewBag.Actions)
+        {
+            <div class="sidebar-header" onclick="document.location.href = '@act.Value'">
+                @act.Key
+            </div>
+        }
+    }
+</div>
+
+<div class="content">
+    <div class="content-bar">
+        @if (Model.CurrentUser.ServerRole == "admin")
+        {
+            <div onclick="document.location.href = '@Url.Action("New", "Roles")'" class="inline search-txt onclick-header">
+                <div class="input-text-btn">Новая роль</div>
+            </div>
+        }
+    </div>
+
+    <div>
+        
+            <div style="width:100%">
+                <table class="table-requests" cellspacing="0" style="display:block">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th style="width:20%; text-align:left; padding-left:50px">Название</th>                            
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (Roles r in Model.Roles)
+                        {
+                            <tr onclick="document.location.href = '@Url.Action("Edit", "Roles", new { r = r.Id.ToString()})'">
+                                <td>@r.Id</td>
+                                <td class="overflow_2" style="text-align:left; padding-left:50px" >
+                                    @r.Notation
+                                </td>                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+  
+    </div>
+
+</div>
+
+
+

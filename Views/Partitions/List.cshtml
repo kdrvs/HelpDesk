@@ -1,0 +1,96 @@
+﻿@using HelpDesk.Data;
+@model HelpDesk.Models.PartitionsList;
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="sidebar">
+    <table onclick="document.location.href = '@Url.Action("Index", "Requests")'" class="sidebar-header">
+        <tr>
+            <td>@Model.CurrentUser.Name</td>
+        </tr>
+        <tr>
+            <td>@Model.CurrentUser.Surname</td>
+        </tr>
+    </table>
+    @if (Html.ViewBag.Actions != null)
+    {
+
+        @foreach (KeyValuePair<string, string> act in Html.ViewBag.Actions)
+        {
+            <div class="sidebar-header" onclick="document.location.href = '@act.Value'">
+                @act.Key
+            </div>
+        }
+    }
+</div>
+
+<div class="content">
+    <div class="content-bar">
+        @if (Model.CurrentUser.ServerRole == "admin")
+        {
+            <div onclick="document.location.href = '@Url.Action("New", "Partitions")'" class="inline search-txt onclick-header">
+                <div class="input-text-btn">Новый раздел</div>
+            </div>
+        }
+    </div>
+
+    @if (Model.CurrentUser.ServerRole == "admin")
+    {
+        <form action="/Partitions/Edit" method="post">
+            <div style="width:100%">
+                <table class="table-requests" cellspacing="0" style="display:block">
+                    <thead>
+                        <tr>
+                            <th style="width:3%">№</th>
+                            <th style="width:20%; text-align:left; padding-left:50px">Название</th>
+                            <th>Изменить</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (Partitions p in Model.Partitions)
+                        {
+                            <tr>
+                                <td onclick="document.location.href = '@Url.Action("Par", "Requests", new { P = p.Notation })'">@p.Id</td>
+                                <td class="overflow_2" style="text-align:left; padding-left:50px" onclick="document.location.href = '@Url.Action("Par", "Requests", new { P = p.Notation })'">
+                                    @p.Notation                                    
+                                </td>
+                                <td class="td-noclick" style="cursor:auto">
+                                    <div onclick="document.location.href = '@Url.Action("Edit", "Partitions", new {p = p.Id.ToString() })'" class="inline search-txt onclick-header">
+                                        <div class="input-text-btn" style="margin-bottom:7px">Изменить</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    }    
+    else
+    {
+    <div style="width:100%">
+        <table class="table-requests" cellspacing="0" style="display:block">
+            <thead>
+                <tr>
+                    <th style="width:3%">№</th>
+                    <th style="width:20%; text-align:left; padding-left:50px">Название</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Partitions p in Model.Partitions)
+                {
+                    <tr onclick="document.location.href = '@Url.Action("Par", "Requests", new { P = p.Notation })'">
+                        <td>@p.Id</td>
+                        <td class="overflow_2" style="text-align:left; padding-left:50px">@p.Notation</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+
+</div>
+

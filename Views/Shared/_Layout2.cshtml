@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HelpDeskNew</title>
+
+    <link rel="stylesheet" href="~/css/clear.css" />
+    <environment include="Development">
+        
+        <link rel="stylesheet" href="~/css/style.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/style.css" />
+    </environment>
+
+    
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body>
+    <header class="header">
+        <div class="inline">
+            <ul class="main-bar" style="text-align:left">
+                <li class="bar-control"> <a class="" asp-area="" asp-controller="Home" asp-action="Index">Главная</a> </li>                
+            </ul>
+        </div>
+        <div class="inline" style="position:absolute; right:0">
+            <ul class="main-bar" style="text-align:right">
+                <li class="bar-control"> <a asp-controller="Account" asp-action="MyAccount">Учетная запись</a></li>
+                <li class="bar-control"> <a style="text-align:right" asp-controller="Authentication" asp-action="LogOut">Выйти</a> </li>
+            </ul>
+        </div>
+        
+    </header>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+</body>
+</html>

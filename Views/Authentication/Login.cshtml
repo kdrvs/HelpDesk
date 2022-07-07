@@ -1,0 +1,33 @@
+﻿@{ 
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Войти</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" >
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <div>
+        <form action="/Authentication/Login" method="post">
+            <div class="container col-2">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="Email" value="" />
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" name="Password" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="submit" value="Войти" />
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

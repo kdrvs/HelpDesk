@@ -1,0 +1,53 @@
+﻿@model HelpDesk.Models.UserModel;
+@{
+    ViewData["Title"] = "MyAccount";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="content">   
+       <div class="request-context">
+           <div class="head-block">Учетная запись</div>
+           <div class="text-block">
+               <table>
+                   <tr>
+                       <td width="110px">Имя: </td>
+                       <td>@Model.User.Name</td>
+                   </tr>
+                   <tr>
+                       <td>Фамилия: </td>
+                       <td>@Model.User.Surname</td>
+                   </tr>
+                   <tr>
+                       <td>Должность: </td>
+                       <td>@Model.User.Post</td>
+                   </tr>
+                   <tr>
+                       <td>Email: </td>
+                       <td>@Model.User.Email</td>
+                   </tr>
+               </table>              
+           </div>
+       </div>
+       <div class="request-context" style="width:200px">
+           <form action="MyAccount" method="post">
+               <div class="head-block">
+                   <input class="input-text-search" type="password" name="Password" value="" placeholder="Введите пароль" />
+               </div>
+               <div class="head-block">
+                   <input class="input-text-search" type="password" name="ConfirmPass" value="" placeholder="Повторите пароль" />
+               </div>
+               <div class="head-block">
+                   <input class="input-text-btn" type="submit" name="submit" value="Сменить пароль" />
+               </div>
+           </form>
+           @if (@Html.ViewBag.Message != null)
+           {
+               <div class="head-block">
+                   <p><font color="red">@Html.ViewBag.Message</font></p>
+               </div>
+           }
+
+       </div>    
+</div>
+
+

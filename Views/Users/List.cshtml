@@ -1,0 +1,95 @@
+﻿@using HelpDesk.Data;
+@model HelpDesk.Models.UsersListModel;
+@{
+    ViewData["Title"] = "Пользователи";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+    <div class="sidebar">
+        <table onclick="document.location.href = '@Url.Action("Index", "Requests")'" class="sidebar-header">
+            <tr>
+                <td>@Model.CurrentUser.Name</td>
+            </tr>
+            <tr>
+                <td>@Model.CurrentUser.Surname</td>
+            </tr>
+        </table>
+        @if (Html.ViewBag.Actions != null)
+        {
+
+            @foreach (KeyValuePair<string, string> act in Html.ViewBag.Actions)
+            {
+                <div class="sidebar-header" onclick="document.location.href = '@act.Value'">
+                    @act.Key
+                </div>
+            }
+        }
+    </div>
+
+<div class="content">
+    <div class="content-bar">
+        <div class="inline">
+            <!--
+            <form action="/Requests/Index" method="post">
+                <div class="search-txt">
+                    <label class="input-text-search">Html.DropDownList("Partitions", "Выбрать раздел")</label>
+                </div>
+                <div class="search-txt">
+                    <input class="input-text-btn" type="submit" value="Перейти" />
+                </div>
+            </form>
+             -->
+        </div>
+        <div class="inline">
+            <div class="search-txt" style="width:30px">
+            </div>
+        </div>
+        <div class="inline">
+            <div class="search-txt">
+                <input class="input-text-search" type="text" name="text" required placeholder="Поиск(ToDo)" />
+            </div>
+        </div>
+        <div class="inline">
+            <div class="search-txt" style="width:30px">
+            </div>
+        </div>
+
+        <div onclick="document.location.href = '@Url.Action("New", "Users")'" class="inline search-txt onclick-header">
+            <div class="input-text-btn">Новый пользователь</div>
+        </div>
+    </div>
+
+
+
+    <div style="width:100%">
+        <table class="table-requests" cellspacing="0" style="display:block">
+            <thead>
+                <tr>
+                    <th style="width:20%">Имя</th>
+                    <th style="width:20%">Фамилия</th>
+                    <th style="width:20%">Email</th>
+                    <th style="padding-left:5px; padding-right:5px"> Должность </th>
+                    <th style="width:20%">Роль</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+                @foreach (Users u in Model.UsersList)
+                {
+                    <tr onclick="document.location.href = '@Url.Action("Edit", "Users", new { u = u.Id.ToString() })'">
+                        <td>@u.Name </td>
+                        <td>@u.Surname</td>
+                        <td>@u.Email</td>
+                        <td style="padding-left:5px; padding-right:5px">@u.Post</td>
+                        <td>@u.ServerRole</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+

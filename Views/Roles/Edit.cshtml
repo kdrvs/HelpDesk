@@ -1,0 +1,125 @@
+﻿@model HelpDesk.Models.RoleModel;
+@using HelpDesk.Data;
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+    <div class="sidebar">
+        <table onclick="document.location.href = '@Url.Action("Index", "Requests")'" class="sidebar-header">
+            <tr>
+                <td>@Model.CurrentUser.Name</td>
+            </tr>
+            <tr>
+                <td>@Model.CurrentUser.Surname</td>
+            </tr>
+        </table>
+
+        @if (Html.ViewBag.Actions != null)
+        {
+
+            @foreach (KeyValuePair<string, string> act in Html.ViewBag.Actions)
+            {
+                <div class="sidebar-header" onclick="document.location.href = '@act.Value'">
+                    @act.Key
+                </div>
+            }
+        }
+    </div>
+
+    <div class="content">
+
+        @if (Model.message != null)
+        {
+            <div class="content-bar">
+                <p style="padding:8px"><font color="red">@Model.message</font></p>
+            </div>
+        }
+        <form action="/Roles/Edit" method="post">
+            <div class="content-bar">
+                <div class="inline">
+                    <div class="search-txt">
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="request-context">                    
+                    <div>                       
+                        <div class="head-block">
+                            <div class="inline" style="width:100px">Название: </div>
+                            <div class="inline">
+                                <input style="width:400px" class="input-text-search" type="text" name="Notation" value="@Model.role.Notation" maxlength="120" />
+                            </div>
+                            <div hidden="hidden">
+                                <input type="number" name="RoleId" value="@Model.role.Id" />
+                            </div>
+                            <br />
+
+                            <div class="block-inner">
+                                <h3 style="width:100%; text-align:center; height:30px; padding:5px; border-bottom:1px solid #c4c4c4">Права доступа</h3>
+
+                                <table class="table-inner">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:50%">Раздел</th>
+                                            <th style="width:16%">Для исполнения</th>
+                                            <th style="width:10%"></th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (Accesses a in Model.accesses)
+                                    {
+                                        <tr>
+                                            <td style="padding-left:15px">@a.IdPartitionNavigation.Notation</td>
+
+                                            <td style="text-align:center">
+                                                @if (a.Performer == true)
+                                                {
+                                                    <input type="checkbox" disabled name="" checked />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" disabled name="" />
+                                                }
+                                            </td>
+
+                                            <td style="text-align:center">
+                                                <div onclick="document.location.href = '@Url.Action("DeleteAccesses", "Roles", new {r = a.IdRole, a = a.IdPartition})'" class="input-text-btn" style="margin-bottom:7px">Удалить</div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+
+                            <div class="block-inner">
+                                <h3 style="width:100%; text-align:center; height:30px; padding:5px; border-bottom:1px solid #c4c4c4">Добавить право доступа</h3>
+                                <div style="height:40px; padding:10px">
+                                    <div class="inline">
+                                        <label class="input-text-search">@Html.DropDownList("Partition")</label>
+                                    </div>
+                                    <div class="inline">Исполнитель?  </div>
+                                    <div class="inline">
+                                        <input type="checkbox" name="forPerform" value="" />
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                                
+                                
+                            </div>
+                        </div>                    
+                    <div class="head-block">
+                        <div class="inline">
+                            <input class="input-text-btn" type="submit" value="Сохранить" />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+

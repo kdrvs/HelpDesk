@@ -1,0 +1,81 @@
+﻿@model HelpDesk.Models.PartitionModel;
+@{
+    ViewData["Title"] = "New";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<form action="/Partitions/New" method="post">
+
+    <div class="sidebar">
+        <table onclick="document.location.href = '@Url.Action("Index", "Requests")'" class="sidebar-header">
+            <tr>
+                <td>@Model.CurrentUser.Name</td>
+            </tr>
+            <tr>
+                <td>@Model.CurrentUser.Surname</td>
+            </tr>
+        </table>
+
+        @if (Html.ViewBag.Actions != null)
+        {
+
+            @foreach (KeyValuePair<string, string> act in Html.ViewBag.Actions)
+            {
+                <div class="sidebar-header" onclick="document.location.href = '@act.Value'">
+                    @act.Key
+                </div>
+            }
+        }
+    </div>
+
+    <div class="content">
+
+        @if (Model.message != null)
+        {
+            <div class="content-bar">
+                <p style="padding:8px"><font color="red">@Model.message</font></p>
+            </div>
+        }
+
+        <div class="content-bar">
+            <div class="inline">
+                <div class="search-txt">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="request-context">
+                <div class="head-block">
+                    <div class="inline" style="width:100px"><h2>Имя:</h2></div>
+                    <div class="inline">
+                        <input style="width:600px; height:35px" class="input-text-search" type="text" name="Notation" value="@Model.Notation" maxlength="140" />
+                    </div>
+                </div>
+                <div>
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <div class="head-block">
+                            <div class="inline" style="width:100px">Статус @(i + 1): </div>
+                            <div class="inline">                                                              
+                                <input style="width:400px" class="input-text-search" type="text" name="Status@(i)" value="" maxlength="120" />                               
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div hidden="hidden">
+                    <input type="number" name="ParId" value="@Model.ParId" />
+                </div>
+                <div class="head-block">
+                    <div class="inline">
+                        <input class="input-text-btn" type="submit" value="Сохранить" />
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
